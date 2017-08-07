@@ -1,4 +1,4 @@
-package com.java.stdy;
+package com.java.study;
 
 
 /**
@@ -14,7 +14,7 @@ public class QuickSort {
         quickSort(sortArr, 0, sortArr.length - 1);
     }
 
-    private static void quickSort(int[] sortArray, int lowIndex, int highIndex) {
+    public static void quickSort(int[] sortArray, int lowIndex, int highIndex) {
         int low = lowIndex;
         int high = highIndex;
         int middle = sortArray[(lowIndex + highIndex) / 2];
@@ -53,5 +53,9 @@ public class QuickSort {
             string.append(" ").append(item);
         }
         System.out.println(string);
+    }
+
+    public void justForTest() {
+        System.out.print(new Throwable().getStackTrace()[0].getMethodName() + "\n");
     }
 }
