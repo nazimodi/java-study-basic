@@ -1,9 +1,6 @@
-package com.java.study;
+package com.nazimodi.java.study.basic;
 
-import com.sun.org.apache.xalan.internal.xsltc.util.IntegerArray;
-
-import java.lang.reflect.Array;
-import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
 /**
@@ -16,7 +13,7 @@ public class Reflection {
      */
     public static void reflectionOne() {
         try {
-            Class classType = Class.forName("com.java.study.QuickSort");
+            Class classType = Class.forName("QuickSort");
             Method[] methods = classType.getDeclaredMethods();
             try {
                 try {
@@ -89,13 +86,28 @@ public class Reflection {
 
     }
 
-    public static void main(String[] args) {
+    /**
+     * 反射字段
+     */
+    public static void reflectionFourth() throws Exception {
+        Class c = QuickSort.class;
+        Object object = c.newInstance();
+        Field field = c.getDeclaredField("namePri");
+        //System.out.print(field.getName() + "::" + field.get(object) + "\n");
+        //field.set(object, "private");
+        //System.out.print(field.getName() + "::" + field.get(object) + "\n");
+
+        field = c.getDeclaredField("namePub");
+        System.out.print(field.getName() + "::" + field.get(object) + "\n");
+        field.set(object, "public");
+        System.out.print(field.getName() + "::" + field.get(object) + "\n");
+
+    }
+
+    public static void main(String[] args) throws Exception {
         reflectionOne();
         reflectionSecond();
-        try {
-            reflectionThird();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        reflectionThird();
+        reflectionFourth();
     }
 }

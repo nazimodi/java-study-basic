@@ -1,4 +1,4 @@
-package com.java.study;
+package com.nazimodi.java.study.basic;
 
 
 /**
@@ -6,6 +6,8 @@ package com.java.study;
  * @version 1.0
  */
 public class QuickSort {
+    private String namePri;
+    public String namePub;
     public static void main(String[] args) {
         int[] sortArr = {49, 38, 65, 97, 76, 13, 27, 49};
         System.out.println("start");
