@@ -7,28 +7,26 @@ import java.util.Scanner;
  * @version 1.0
  */
 public class POJ_1753_FlipGame {
-    private static int[] chess = new int[17];
+    private static int chess;
     private static boolean isEnd;
-    private static int chessNum = 16;
-    private static int length = 4;
 
     public static void main(String[] args) {
-
+        int i, j;
+        StringBuilder input = new StringBuilder();
         Scanner scanner = new Scanner(System.in);
-        for (int i = 0; i < length; i++) {
-            String input = scanner.nextLine();
-            String[] row = input.split("");
-            for (int j = 1; j <= length; j++) {
-                chess[i * length + j] = row[j - 1].equals("b") ? 1 : 0;
-            }
+        for (i = 0; i < 4; i++) {
+            input.append(scanner.nextLine().trim());
+
+        }
+        for (j = 1; j <= 16; j++) {
+            chess = (chess << 1) + (input.substring(j - 1, j).equals("b") ? 1 : 0);
         }
         //scanner.close();
         isEnd = judge();
         if (isEnd) {
             System.out.println(0);
         } else {
-            int i;
-            for (i = 1; i <= chessNum; i++) {
+            for (i = 1; i <= 16; i++) {
                 isEnd = false;
                 dfs(0, 0, i);
                 if (isEnd) {
@@ -49,12 +47,10 @@ public class POJ_1753_FlipGame {
      * @return boolean
      */
     private static boolean judge() {
-        for (int i = 2; i <= chessNum; i++) {
-            if (chess[i - 1] != chess[i]) {
-                return false;
-            }
+        if (chess == 65535 || chess == 0) {
+            return true;
         }
-        return true;
+        return false;
     }
 
     /**
@@ -63,26 +59,26 @@ public class POJ_1753_FlipGame {
      * @param i 翻转位置
      */
     private static void convert(int i) {
-        chess[i] ^= 1;
-        if (i % length != 0) {
-            chess[i + 1] ^= 1;
+        chess ^= 1 << (16 - i);
+        if (i % 4 != 0) {
+            chess ^= 1 << (16 - (i + 1));
         }
-        if (i % length != 1) {
-            chess[i - 1] ^= 1;
+        if (i % 4 != 1) {
+            chess ^= 1 << (16 - (i - 1));
         }
-        if (i > length) {
-            chess[i - length] ^= 1;
+        if (i > 4) {
+            chess ^= 1 << (16 - (i - 4));
         }
         if (i < 13) {
-            chess[i + length] ^= 1;
+            chess ^= 1 << (16 - (i + 4));
         }
     }
 
     /**
      * 从pos位置开始寻找最优解
      *
-     * @param pos 从哪开始走
-     * @param now 当前走了几步
+     * @param pos   从哪开始走
+     * @param now   当前走了几步
      * @param total 允许翻棋子的总数
      */
     private static void dfs(int pos, int now, int total) {
@@ -92,7 +88,7 @@ public class POJ_1753_FlipGame {
             return;
         }
 
-        for (; i <= chessNum; i++) {
+        for (; i <= 16; i++) {
             convert(i);
             dfs(i, now + 1, total);
             if (isEnd) {
